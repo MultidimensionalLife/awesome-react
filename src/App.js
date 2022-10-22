@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { createGlobalStyle } from "styled-components";
+import LoginPage from "./components/pages/Login";
+
+import Dashboardpage from "./components/pages/Dashboard";
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: #f1faee;
+    padding: 0;
+    margin: 0;
+  }
+`;
 
 function App() {
+  const [isLogin, setIsLogin] = useState(true);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle />
+      {isLogin ? (
+        <Dashboardpage onLogout={() => setIsLogin(false)} />
+      ) : (
+        <LoginPage onSuccess={() => setIsLogin(true)} />
+      )}
+    </>
   );
 }
 
