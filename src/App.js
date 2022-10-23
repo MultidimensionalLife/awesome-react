@@ -10,10 +10,13 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
   }
+  p {
+    margin: 0;
+  }
 `;
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <>
