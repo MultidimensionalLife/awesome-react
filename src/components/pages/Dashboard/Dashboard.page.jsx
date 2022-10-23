@@ -1,10 +1,12 @@
+import { useState } from "react";
+
 import styled from "styled-components";
 
 import TopBarContainer from "../../templates/TopBarContainer";
 import StyledButton from "../../atoms/Button";
 
 const StyledBox = styled.div`
-  background-color: white;
+  background-color: ${(props) => (props.selected ? "red" : "white")};
   height: 50px;
   width: 50px;
   margin: 0.1em;
@@ -26,6 +28,26 @@ const TOTAL_SIZE = [...Array(BOX_SIZE * BOX_SIZE - 1 + 1).keys()].map(
 );
 
 const DashboardPage = ({ onLogout = () => {} }) => {
+  const [mouseDown, setMouseDown] = useState(false);
+  const [isPrimaryColor, setIsPrimaryColor] = useState(false);
+
+  const handleOnMouseDown = () => {
+    setIsPrimaryColor(!isPrimaryColor);
+    setMouseDown(true);
+  };
+
+  const handleOnMouseMove = (e) => {
+    if (!mouseDown) {
+      return;
+    }
+
+    if (isPrimaryColor) {
+      e.target.style = "background-color: red;";
+    } else {
+      e.target.style = "background-color: white;";
+    }
+  };
+
   return (
     <>
       <TopBarContainer>
@@ -38,7 +60,9 @@ const DashboardPage = ({ onLogout = () => {} }) => {
               Array.from(Array(BOX_SIZE).keys()).map((_value, _index) => (
                 <StyledBox
                   key={`${_value}-${_index}`}
-                  onwheel={() => console.log(1)}
+                  onMouseDown={handleOnMouseDown}
+                  onMouseMove={handleOnMouseMove}
+                  onMouseUp={() => setMouseDown(false)}
                 />
               ))}
           </StyledRowContainer>
